@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Ross McCracken">
+    <meta name="generator" content="Hugo 0.78.1">
+
+    <title>The Masters 2020</title>
+
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-CuOF+2SnTUfTwSZjCXf01h7uYhfOBuxIhGKPbfEJ3+FqH/s6cIFN9bGr1HmAg4fQ" crossorigin="anonymous">
+
+    <!-- Favicons -->
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" href="/images/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="/images/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="manifest" href="/images/manifest.json">
+    <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#563d7c">
+    <link rel="icon" href="/images/favicon.ico">
+    <meta name="msapplication-config" content="/images/browserconfig.xml">
+    <meta name="theme-color" content="#563d7c">
+
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+
+
+    <!-- Custom styles for this template -->
+</head>
+
+<body class="bg-light">
+
+    <div class="container">
+        <main>
+            <div class="py-5 text-center">
+                <p>Last updated: <span data-bind="text: lastUpdated"></span></p>
+                <img class="d-block mx-auto mb-4" src="masterslogo.png" alt="" width="80" height="76">
+                <h2>The Masters 2020</h2>
+
+                <table class="table w-auto small">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Par</th>
+                            <th scope="col">Player</th>
+                            <th scope="col">Golfer 1</th>
+                            <th scope="col">Golfer 2</th>
+                            <th scope="col">Golfer 3</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
+
+                    <tbody data-bind="foreach: sortedPersons">
+                        <tr>
+                            <!-- ko if: ($index() === ($parent.sortedPersons().length - 1) && name === 'Richie Harpur') -->
+                            <th rowspan=2 scope="row">DEAD LAST</th>
+                            <!-- /ko -->
+                            <!-- ko if: ($index() !== ($parent.sortedPersons().length - 1) || name !== 'Richie Harpur' ) -->
+                            <th rowspan=2 scope="row" data-bind="text: $index() + 1"></th>
+                            <!-- /ko -->
+                            <td rowspan=2 data-bind="text: totalToParDisplay"></td>
+                            <!-- ko if: name === 'Richie Harpur'-->
+                            <td rowspan=2> <img class="d-block mx-auto mb-4" src="/images/richie.png" alt="" width="85"
+                                    height="50">
+                            </td>
+                            <!-- /ko -->
+                            <!-- ko if: name !== 'Richie Harpur' -->
+                            <td rowspan=2 data-bind="text: name"></td>
+                            <!-- /ko -->
+                            <td data-bind="text: golfers()[0].shortName, class: golfers()[0].cutClass"></td>
+                            <td data-bind="text: golfers()[1].shortName, class: golfers()[1].cutClass"></td>
+                            <td data-bind="text: golfers()[2].shortName, class: golfers()[2].cutClass"></td>
+                            <td rowspan=2 data-bind="text: total"></td>
+                        </tr>
+
+                        <tr>
+                            <td data-bind="text: golfers()[0].summary, class: golfers()[0].cutClass"></td>
+                            <td data-bind="text: golfers()[1].summary, class: golfers()[1].cutClass"></td>
+                            <td data-bind="text: golfers()[2].summary, class: golfers()[2].cutClass"></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+        </main>
+
+        <footer class="my-5 pt-5 text-muted text-center text-small">
+            <p class="mb-1">&copy; 2020 A Karla Harpur Production</p>
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="#">Privacy</a></li>
+                <li class="list-inline-item"><a href="#">Terms</a></li>
+                <li class="list-inline-item"><a href="#">Support</a></li>
+            </ul>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-latest.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-popRpmFF9JQgExhfw5tZT4I9/CI5e2QcuUZPOVXb1m7qUmeR2b50u+YFEYe1wgzy"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
+        integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
+        crossorigin="anonymous"></script>
+</body>
+
+<script>
+
+    ko.options.deferUpdates = true;
+
+    var Golfer = function (name, personName) {
+        var self = this;
+
+        self.personName = personName;
+        self.name = name;
+        self.r1 = ko.observable('');
+        self.r2 = ko.observable('');
+        self.r3 = ko.observable('');
+        self.r4 = ko.observable('');
+        self.thru = ko.observable('');
+        self.toPar = ko.observable(0);
+        self.total = ko.observable(0);
+        self.cut = ko.observable(false);
+
+        self.shortName = ko.pureComputed(function () {
+            var i = self.name.indexOf(" ") + 1;
+            return self.name.substr(i) + ' ' + self.toParDisplay();
+        });
+
+        self.summary = ko.pureComputed(function () {
+
+            if (self.personName === "Richie Harpur" && self.cut() === true) {
+                return "yeeooooooo"
+            }
+
+            return self.r1() + '|' + self.r2() + '|' + self.r3() + '|' + self.r4() + ' ' + self.thruDisplay();
+        });
+
+        self.cutClass = ko.pureComputed(function () {
+            return self.cut() === true ? "table-danger" : "";
+        });
+
+        self.thruDisplay = ko.pureComputed(function () {
+            return '(' + self.thru() + ')';
+        });
+
+        self.toParDisplay = ko.pureComputed(function () {
+            return '(' + (self.toPar() > 0 ? '+' + self.toPar() : self.toPar() < 0 ? self.toPar() : 'E') + ')';
+        });
+    }
+
+    var Person = function (name, golferNames) {
+        var self = this;
+
+        self.name = name;
+        self.golfers = ko.observableArray([]);
+
+        golferNames.forEach(golferName => {
+            self.golfers.push(new Golfer(golferName, name));
+        });
+
+        self.totalToPar = ko.pureComputed(function () {
+            var total = 0;
+
+            for (var p = 0; p < self.golfers().length; ++p) {
+                total += self.golfers()[p].toPar();
+            }
+            return total;
+        });
+
+        self.totalToParDisplay = ko.pureComputed(function () {
+            return self.totalToPar() > 0 ? '+' + self.totalToPar() : self.totalToPar() < 0 ? self.totalToPar() : 'E';
+        });
+
+        self.total = ko.pureComputed(function () {
+            var total = 0;
+
+            for (var p = 0; p < self.golfers().length; ++p) {
+                total += self.golfers()[p].total();
+            }
+            return total;
+        });
+    }
+
+    var mastersViewModel = {
+        lastUpdated: ko.observable(),
+        persons: [
+            new Person("Karla", ["Justin Thomas", "Rickie Fowler", "Francesco Molinari"]),
+            new Person("Tony", ["Jon Rahm", "Justin Rose", "Matt Kuchar"]),
+            new Person("Craig", ["Paul Casey", "Jason Day", "Patrick Reed"]),
+            new Person("Becca", ["Justin Thomas", "Matthew Wolff", "Cameron Smith"]),
+            new Person("Nicola/David", ["Jon Rahm", "Louis Oosthuizen", "Matthew Fitzpatrick"]),
+            new Person("Richie Harpur", ["Francesco Molinari", "Brooks Koepka", "Bryson DeChambeau"]),
+            new Person("Louise", ["Brooks Koepka", "Phil Mickelson", "Lukas Michel (a)"]),
+            new Person("Davy", ["Justin Thomas", "Hideki Matsuyama", "Kevin Kisner"]),
+            new Person("Ian", ["Patrick Reed", "Justin Rose", "Louis Oosthuizen"]),
+            new Person("Alex", ["Tony Finau", "Paul Casey", "Lee Westwood"]),
+            new Person("Ross", ["Phil Mickelson", "Justin Rose", "Lee Westwood"]),
+        ],
+        sortedPersons: ko.computed(function () {
+            return mastersViewModel.persons.sort(function (a, b) {
+                var toParResult = a.totalToPar() === b.totalToPar() ? 0 : a.totalToPar() > b.totalToPar() ? 1 : -1;
+
+                if (toParResult === 0) {
+                    return a.total() === b.total() ? 0 : a.total() < b.total() ? 1 : -1
+                }
+
+                return toParResult;
+            });
+        })
+    };
+
+    function updateValues() {
+
+        var par = 72;
+
+        $.getJSON("https://api.bigquizross.com/scoreboard").done(function (data) {
+
+            data.players.forEach(player => {
+                mastersViewModel.persons.forEach(person => {
+                    var match = ko.utils.arrayFirst(person.golfers(), function (golfer) {
+                        return golfer.name == player.player;
+                    });
+
+                    if (match) {
+
+                        match.total(parseFloat(player.tot));
+                        match.r1(player.r1);
+                        match.r2(player.r2);
+
+                        if (player.to_par === 'CUT') {
+                            match.cut(true);
+                            match.r3(player.r1);
+                            match.r4(player.r2);
+
+                            var r1 = parseFloat(player.r1) - par;
+                            var r2 = parseFloat(player.r2) - par;
+
+                            match.toPar((r1 + r2) * 2);
+                            match.total(match.total() * 2);
+                        }
+                        else {
+                            match.r3(player.r3);
+                            match.r4(player.r4);
+
+                            if (player.to_par === 'E') {
+                                match.toPar(0);
+                            }
+                            else {
+                                match.toPar(parseFloat(player.to_par));
+                            }
+                        }
+
+                        if (match.cut()) {
+                            match.thru(player.thru);
+                        }
+                        else {
+                            var teeTime = moment.utc(player.thru, 'hh:mm a').add(5, 'hour').format('HH:mm');
+                            match.thru(player.thru);
+                        }
+                    }
+                });
+            });
+
+            var lastUpdated = Date.parse(data.last_updated_str)
+
+            mastersViewModel.lastUpdated(moment(lastUpdated).format('HH:mm'));
+        });
+    }
+
+    updateValues();
+    ko.applyBindings(mastersViewModel);
+
+    setInterval(updateValues, 10000);
+</script>
+
+</html>
